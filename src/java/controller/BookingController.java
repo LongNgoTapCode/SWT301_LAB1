@@ -106,7 +106,7 @@ public class BookingController extends HttpServlet {
             request.setAttribute("email", email);
             request.setAttribute("phoneNumber", phoneNumber);
             request.setAttribute("specialRequests", specialRequests);
-            request.getRequestDispatcher("booking.jsp").forward(request, response);
+            
             request.getRequestDispatcher("booking.jsp").forward(request, response);
             return;
         }
