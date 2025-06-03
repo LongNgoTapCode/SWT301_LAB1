@@ -21,7 +21,7 @@ import model.User;
 
 /**
  *
- * @author Dell
+ * @author Duong
  */
 public class BookingController extends HttpServlet {
 
