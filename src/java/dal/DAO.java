@@ -189,30 +189,16 @@ public class DAO extends DBContext {
 
     }
 
-    public boolean addBooking(String roomId, String checkInDate, String checkOutDate, String fullName, String email, String phoneNumber, String specialRequests, int userId) throws SQLException {
+    public boolean addBooking(String roomId, String checkInDate, String checkOutDate, String fullName,
+                          String email, String phoneNumber, String specialRequests, int userId) throws SQLException {
 
-        if (getConnection() == null) {
-            return false;
-        }
-        Connection conn = getConnection();
-        int addBooking = addBooking(conn, roomId, checkInDate, checkOutDate, userId);
-        if (addBooking <= 0) {
-            return false;
-        }
-        conn = getConnection();
-        boolean addBookingDetail = addBookingDetail(conn, fullName, email, phoneNumber, specialRequests, addBooking);
+    return getConnection() != null
+            && addBooking(getConnection(), roomId, checkInDate, checkOutDate, userId) > 0
+            && addBookingDetail(getConnection(), fullName, email, phoneNumber, specialRequests,
+                addBooking(getConnection(), roomId, checkInDate, checkOutDate, userId))
+            && updateStatus(getConnection(), roomId);
+}
 
-        if (!addBookingDetail) {
-            return false;
-        }
-        conn = getConnection();
-        boolean updateStatusRoom = updateStatus(conn, roomId);
-
-        if (!updateStatusRoom) {
-            return false;
-        }
-        return true;
-    }
 
     public boolean cancelBooking(String bookingId) {
         String query = "UPDATE bookings SET booking_status = 'canceled' WHERE booking_id = ?";
