@@ -182,7 +182,8 @@
                     <c:forEach items="${room}" var="item">
                         <tr>
                             <td>${item.getRoomId()}</td>
-                            <td><img src="${item.getImg()}" alt="Room Image" width="150" height="150"></td>
+                            <!-- Remove redundant word "image" from the "alt" attribute of your "img" tag. -->
+                            <td><img src="${item.getImg()}" alt="Room ${item.getRoomId()}" width="150" height="150"></td>
                             <td>${item.getRoomType()}</td>
                             <td class="price">${item.getPrice()} VND/đêm</td>
                             <td>

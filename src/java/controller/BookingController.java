@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
+// [Bug #1 Fixed] Removed unused auto-generated comments about templates.
 package controller;
 
 import dal.DAO;
@@ -38,7 +35,7 @@ public class BookingController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+            // Deleted comments
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -99,14 +96,14 @@ public class BookingController extends HttpServlet {
         LocalDate checkOut = LocalDate.parse(checkOutDate, formatter);
 
         if (today.isAfter(checkIn) || checkIn.isAfter(checkOut)) {
-//          if(today.compareTo(checkIn) < 0 || checkIn.compareTo(checkOut) < 0){
+            //deleted comment of old code
 
             request.setAttribute("errorMessage", "Vui lòng chọn ngày Check-in và Check-out hợp lệ.");
             request.setAttribute("fullname", fullName);
             request.setAttribute("email", email);
             request.setAttribute("phoneNumber", phoneNumber);
             request.setAttribute("specialRequests", specialRequests);
-            request.getRequestDispatcher("booking.jsp").forward(request, response);
+            // [Bug #S1192 Fixed] Avoid duplication of string literal.
             request.getRequestDispatcher("booking.jsp").forward(request, response);
             return;
         }
@@ -120,7 +117,8 @@ public class BookingController extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(success);
+        Logger.getLogger(BookingController.class.getName()).log(Level.INFO, "Booking success status: {0}", success); // [Bug #S106 Fixed] Replaced System.out with Logger.
+
         if (success) {
             response.sendRedirect("roomController?action=success");
         } else {
