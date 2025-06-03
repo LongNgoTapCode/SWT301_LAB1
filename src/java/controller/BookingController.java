@@ -120,7 +120,8 @@ public class BookingController extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(success);
+        Logger.getLogger(BookingController.class.getName()).log(Level.INFO, "Booking success status: {0}", success);
+
         if (success) {
             response.sendRedirect("roomController?action=success");
         } else {
