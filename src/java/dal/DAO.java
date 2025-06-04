@@ -218,7 +218,7 @@ public class DAO extends DBContext {
         }
     }
 
-    private int getBookingId(Connection conn) throws SQLException {
+    public int getBookingId(Connection conn) throws SQLException {
         int bookingId = 0;
         try (PreparedStatement psGetBookingId = conn.prepareStatement("SELECT SCOPE_IDENTITY() AS booking_id"); // Lấy booking_id vừa chèn
             ResultSet rs = psGetBookingId.executeQuery();){
