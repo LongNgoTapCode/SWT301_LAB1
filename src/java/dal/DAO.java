@@ -23,15 +23,15 @@ import model.User;
  */
 public class DAO extends DBContext {
 
-    PreparedStatement stm;
+    PreparedStatement preparedStatement;
     ResultSet rs;
 
     public ArrayList<Room> getRoom() {
         ArrayList<Room> room = new ArrayList<>();
         try {
             String strSQL = "SELECT * FROM rooms";
-            stm = connection.prepareStatement(strSQL);
-            rs = stm.executeQuery();
+            preparedStatement = connection.prepareStatement(strSQL);
+            rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 String roomId = String.valueOf(rs.getInt(1));
                 String roomNumber = String.valueOf(rs.getInt(2));
@@ -54,8 +54,8 @@ public class DAO extends DBContext {
         ArrayList<User> user = new ArrayList<>();
         try {
             String strSQL = "SELECT * FROM users";
-            stm = connection.prepareStatement(strSQL);
-            rs = stm.executeQuery();
+            preparedStatement = connection.prepareStatement(strSQL);
+            rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 String userId = String.valueOf(rs.getInt(1));
                 String userName = rs.getString(2);
@@ -76,8 +76,8 @@ public class DAO extends DBContext {
         ArrayList<Revenue> revenue = new ArrayList<>();
         try {
             String strSQL = "SELECT * FROM revenues";
-            stm = connection.prepareStatement(strSQL);
-            rs = stm.executeQuery();
+            preparedStatement = connection.prepareStatement(strSQL);
+            rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 String revenueId = String.valueOf(rs.getInt(1));
                 String roomId = String.valueOf(rs.getInt(2));
@@ -98,8 +98,8 @@ public class DAO extends DBContext {
         ArrayList<Booking> booking = new ArrayList<>();
         try {
             String strSQL = "SELECT * FROM bookings";
-            stm = connection.prepareStatement(strSQL);
-            rs = stm.executeQuery();
+            preparedStatement = connection.prepareStatement(strSQL);
+            rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 String bookingId = String.valueOf(rs.getInt(1));
                 String userId = String.valueOf(rs.getInt(2));
@@ -121,11 +121,11 @@ public class DAO extends DBContext {
         ArrayList<Room> rooms = new ArrayList<>();
         try {
             String strSQL = "SELECT * FROM rooms WHERE room_id LIKE ? OR room_type LIKE ?";
-            PreparedStatement stm = connection.prepareStatement(strSQL);
+            PreparedStatement preparedStatement = connection.prepareStatement(strSQL);
             String searchPattern = "%" + searchQuery + "%";
-            stm.setString(1, searchPattern);
-            stm.setString(2, searchPattern);
-            ResultSet rs = stm.executeQuery();
+            preparedStatement.setString(1, searchPattern);
+            preparedStatement.setString(2, searchPattern);
+            ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 Room room = new Room(
                         rs.getString("room_id"),
@@ -149,10 +149,10 @@ public class DAO extends DBContext {
         User user = null;
         try {
             String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, username);
-            stm.setString(2, password);
-            ResultSet rs = stm.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 user = new User(
                         String.valueOf(rs.getInt("user_id")),
@@ -173,12 +173,12 @@ public class DAO extends DBContext {
     public boolean registerUser(String username, String password, String email, String fullName) {
         try {
             String sql = "INSERT INTO users (username, password, role, email, full_name) VALUES (?, ?, 'customer', ?, ?)";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, username);
-            stm.setString(2, password);
-            stm.setString(3, email);
-            stm.setString(4, fullName);
-            stm.executeUpdate();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, fullName);
+            preparedStatement.executeUpdate();
             return true;
         } catch (Exception e) {
             System.out.println("Error registering user: " + e.getMessage());
@@ -295,10 +295,10 @@ public class DAO extends DBContext {
 
     public boolean updateRoomStatus(String roomId, String newStatus) {
         String query = "UPDATE rooms SET status = ? WHERE room_id = ?";
-        try (PreparedStatement stm = connection.prepareStatement(query)) {
-            stm.setString(1, newStatus);
-            stm.setString(2, roomId);
-            stm.executeUpdate();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, newStatus);
+            preparedStatement.setString(2, roomId);
+            preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -432,8 +432,8 @@ public class DAO extends DBContext {
         double totalRevenue = 0;
         try {
             String sql = "SELECT SUM(amount) AS total FROM revenues";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            ResultSet rs = stm.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 totalRevenue = rs.getDouble("total");
             }
@@ -448,12 +448,12 @@ public class DAO extends DBContext {
         try {
             // Modified the SQL query to filter by userId as well
             String sql = "SELECT * FROM bookings WHERE user_id = ? AND booking_status = 'pending'";
-            PreparedStatement stm = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             // Set the userId value in the query
-            stm.setString(1, userId);
+            preparedStatement.setString(1, userId);
 
-            ResultSet rs = stm.executeQuery();
+            ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
                 Booking booking = new Booking(

@@ -30,7 +30,7 @@ public class DBContext {
             String user = "sa";
             String pass = "123";
             String url = "jdbc:sqlserver://localhost:1433;databaseName=Hotels";
-            class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
