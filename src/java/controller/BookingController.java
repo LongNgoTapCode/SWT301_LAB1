@@ -38,7 +38,6 @@ public class BookingController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -99,8 +98,6 @@ public class BookingController extends HttpServlet {
         LocalDate checkOut = LocalDate.parse(checkOutDate, formatter);
 
         if (today.isAfter(checkIn) || checkIn.isAfter(checkOut)) {
-//          if(today.compareTo(checkIn) < 0 || checkIn.compareTo(checkOut) < 0){
-
             request.setAttribute("errorMessage", "Vui lòng chọn ngày Check-in và Check-out hợp lệ.");
             request.setAttribute("fullname", fullName);
             request.setAttribute("email", email);
