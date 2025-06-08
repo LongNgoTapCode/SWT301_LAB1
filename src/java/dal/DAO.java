@@ -22,7 +22,7 @@ import model.User;
  * @author Dell
  */
 public class DAO extends DBContext {
-
+    private static final String ROOM_ID = "room_id";
     PreparedStatement preparedStatement;
     ResultSet rs;
 
@@ -120,7 +120,7 @@ public class DAO extends DBContext {
     public ArrayList<Room> SearchRoom(String searchQuery) {
         ArrayList<Room> rooms = new ArrayList<>();
         try {
-            String strSQL = "SELECT * FROM rooms WHERE room_id LIKE ? OR room_type LIKE ?";
+            String strSQL = "SELECT * FROM rooms WHERE " + ROOM_ID + " LIKE ? OR room_type LIKE ?";
             PreparedStatement preparedStatement = connection.prepareStatement(strSQL);
             String searchPattern = "%" + searchQuery + "%";
             preparedStatement.setString(1, searchPattern);
@@ -128,7 +128,7 @@ public class DAO extends DBContext {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 Room room = new Room(
-                        rs.getString("room_id"),
+                        rs.getString(ROOM_ID),
                         rs.getString("room_number"),
                         rs.getString("room_type"),
                         rs.getString("capacity"),
@@ -357,7 +357,7 @@ public class DAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 Room room = new Room();
-                room.setRoomId(rs.getInt("room_id") + "");
+                room.setRoomId(rs.getInt(ROOM_ID) + "");
                 room.setRoomNumber(rs.getString("room_number"));
                 room.setRoomType(rs.getString("room_type"));
                 room.setCapacity(rs.getInt("capacity") + "");
@@ -459,7 +459,7 @@ public class DAO extends DBContext {
                 Booking booking = new Booking(
                         rs.getString("booking_id"),
                         rs.getString("user_id"),
-                        rs.getString("room_id"),
+                        rs.getString(ROOM_ID),
                         rs.getString("check_in_date"),
                         rs.getString("check_out_date"),
                         rs.getString("booking_status")
