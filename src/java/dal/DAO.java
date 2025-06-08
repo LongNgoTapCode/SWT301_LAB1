@@ -261,9 +261,9 @@ public class DAO extends DBContext {
     }
 
     private boolean addBookingDetail(Connection conn, String fullName, String email, String phoneNumber, String specialRequests, int bookId) throws SQLException {
-        try {
-            String detailsQuery = "INSERT INTO booking_details (booking_id, full_name, email, phone_number, special_requests) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement psDetails = conn.prepareStatement(detailsQuery);
+        String detailsQuery = "INSERT INTO booking_details (booking_id, full_name, email, phone_number, special_requests) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement psDetails = conn.prepareStatement(detailsQuery);){
+            
             // Thêm thông tin vào bảng `booking_details`
             psDetails.setInt(1, bookId);
             psDetails.setString(2, fullName);
