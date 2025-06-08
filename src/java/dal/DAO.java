@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import model.Booking;
 import model.Revenue;
@@ -23,6 +25,7 @@ import model.User;
  */
 public class DAO extends DBContext {
     private static final String ROOM_ID = "room_id";
+    private static final Logger logger = Logger.getLogger(DAO.class.getName());
     PreparedStatement preparedStatement;
     ResultSet rs;
 
@@ -44,7 +47,7 @@ public class DAO extends DBContext {
                 room.add(r);
             }
         } catch (Exception e) {
-            System.out.println("get all Room" + e.getMessage());
+            logger.log(Level.SEVERE, "Get all user error: ", e);
         }
 
         return room;
